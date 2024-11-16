@@ -34,11 +34,12 @@ class MongoApp:
             print(f"Error fetching candidates: {e}")
         return
 
-    def has_id_voted(self, id):
+    def has_id_voted(self, id, reg):
         try:
-            voters = list(self.db.ballots.find({}, {"_id": 0, "voterID": 1}))
-            voter_ids = [voter['voterID'] for voter in voters]
-            return (id in voter_ids)
+            voters = list(self.db.ballots.find(
+                {'voterID': str(id), 'regPIN': str(reg)}))
+            print(voters)
+            return (len(voters) > 0)
         except Exception as e:
             print(f"Error fetching votes: {e}")
         return
