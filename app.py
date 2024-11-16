@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import messagebox
-#import MongoApp as mongoApp
+import MongoApp as mongoApp
 
 class VotingApp:
     def __init__(self, root):
-        #self.mongoApp = mongoApp.MongoApp()
+        self.mongoApp = mongoApp.MongoApp()
         self.root = root
         self.root.title("Voter Registration Form")
 
@@ -26,8 +26,8 @@ class VotingApp:
         self.candidate_label.pack(padx=10, pady=5)
 
         # List of candidates
-        #self.candidates = self.mongoApp.get_all_candidates()
-        self.candidates = ['A', 'B', 'C', 'D']
+        self.candidates = self.mongoApp.get_all_candidates()
+        #self.candidates = ['A', 'B', 'C', 'D']
 
         # Variables to store selected candidates
         self.selected_candidates = [tk.StringVar(value="") for _ in range(3)]
@@ -95,13 +95,13 @@ class VotingApp:
             messagebox.showerror("Input Error", "Please provide all fields and select 3 unique candidates.")
             return
 
-        #if self.mongoApp.has_id_voted(voter_id):
-        #    messagebox.showerror("Input Error", "You can't vote twice.")
+        if self.mongoApp.has_id_voted(voter_id):
+            messagebox.showerror("Input Error", "You can't vote twice.")
 
-        #try:
-        #    self.mongoApp.post_ballot()
-        #except Exception as e:
-        #    print('Unknown error: ' + str(e))
+        try:
+            self.mongoApp.post_ballot(voter_id, registration_pin, candidates[0], candidates[1], candidates[2])
+        except Exception as e:
+            print('Unknown error: ' + str(e))
         
         messagebox.showinfo("Success", f"Vote submitted successfully! Voter ID: {voter_id} has voted for {', '.join(candidates)}")
 
