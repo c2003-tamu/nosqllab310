@@ -97,7 +97,8 @@ class VotingApp:
 
         if self.mongoApp.has_id_voted(voter_id):
             messagebox.showerror("Input Error", "You can't vote twice.")
-
+            return
+            
         try:
             self.mongoApp.post_ballot(voter_id, registration_pin, candidates[0], candidates[1], candidates[2])
         except Exception as e:
